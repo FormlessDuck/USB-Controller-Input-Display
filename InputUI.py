@@ -82,6 +82,7 @@ class InputDisplay(ctk.CTk):
             leftTrigger = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0
             rightTrigger = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0
 
+            # This block handles N64 controllers specifically, as the Z trigger reads as axis 4, rather than a button. This code reads the axis, and adds the button to the button dict.
             weirdo = sdl2.SDL_GameControllerGetJoystick(self.standardController)
             if sdl2.SDL_JoystickNumAxes(weirdo) > 4:
                 zPressed = sdl2.SDL_JoystickGetAxis(weirdo, 4) > 0
@@ -113,7 +114,7 @@ class InputDisplay(ctk.CTk):
                     self.buttonLabel.configure(text = "Last Button: Z")
                 self.prevButtons["Z"] = isPressed
         
-
+        # waits for 16 ms before calling the loop again. results in approx. 60 fps update time
         self.after(16, self.updateLoop)
 
 app = InputDisplay()
