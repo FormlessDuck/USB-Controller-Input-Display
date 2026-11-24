@@ -1,0 +1,3 @@
+customtkinter
+pysdl2 
+pysdl2-dll
