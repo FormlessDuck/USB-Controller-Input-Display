@@ -9,6 +9,23 @@ class InputDisplay(ctk.CTk):
 
         sdl2.SDL_Init(sdl2.SDL_INIT_JOYSTICK | sdl2.SDL_INIT_GAMECONTROLLER)
 
+        self.n64MapDefault = {
+            "A": "B",
+            "B": "A", 
+            "X": "C-LEFT", 
+            "Y": "C-DOWN", 
+            "START": "C-UP",
+            "BACK": "C-RIGHT", 
+            "LEFTSHOULDER": "L", 
+            "RIGHTSHOULDER": "R", 
+            "DPUP": "D-UP", 
+            "DPDOWN": "D-DOWN", 
+            "DPLEFT": "D-LEFT:",
+            "DPRIGHT": "D-RIGHT",
+            "GUIDE": "START",
+            "Z": "Z"
+        }
+
         self.standardController = None # For use with standard controllers, i.e, XBox, Playstation, Switch
         self.genericController = None #For use with generic gamepads that use raw usb data
         self.activeDevice = None # Id of connected controller
@@ -71,7 +88,8 @@ class InputDisplay(ctk.CTk):
             for button in range(sdl2.SDL_CONTROLLER_BUTTON_MAX):
                 isPressed = bool(sdl2.SDL_GameControllerGetButton(self.standardController, button))
                 if isPressed and not self.prevButtons.get(button, False):
-                    buttonName = sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper()
+                    # buttonName = sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper()
+                    buttonName = self.n64MapDefault[sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper()]
                     print(f"{buttonName} pressed.")
                     self.buttonLabel.configure(text = f"Last Button: {buttonName}")
                 self.prevButtons[button] = isPressed
@@ -83,12 +101,26 @@ class InputDisplay(ctk.CTk):
             rightTrigger = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0
 
             # This block handles N64 controllers specifically, as the Z trigger reads as axis 4, rather than a button. This code reads the axis, and adds the button to the button dict.
-            weirdo = sdl2.SDL_GameControllerGetJoystick(self.standardController)
-            if sdl2.SDL_JoystickNumAxes(weirdo) > 4:
-                zPressed = sdl2.SDL_JoystickGetAxis(weirdo, 4) > 0
+            # some usb adapters poll at lower rates, so a held button, especially one that reads as an analog axis, will dip low for a frame when held. I updated this block to account for that so the button doesnt refire every frame unless i want it to. 
+            joy = sdl2.SDL_GameControllerGetJoystick(self.standardController)
+            if sdl2.SDL_JoystickNumAxes(joy) > 4:
+                axisVal = sdl2.SDL_JoystickGetAxis(joy, 4)
+
+                if axisVal > 16000:
+                    self.zLow = 0
+                    zPressed = True
+                elif axisVal < 8000:
+                    self.zLow = getattr(self, "zLow", 0) + 1
+                    zPressed = self.prevButtons.get("Z", False) if self.zLow < 2 else False
+                else:
+                    zPressed = self.prevButtons.get("Z", False)
+
                 if zPressed and not self.prevButtons.get("Z", False):
-                    self.buttonLabel.configure(text = "Last Button: Z")
-                self.prevButtons["Z"] = isPressed
+                    buttonName = self.n64MapDefault.get("Z", "Z")
+                    print(f"{buttonName} pressed.")
+                    self.buttonLabel.configure(text = f"Last Button: {buttonName}")
+
+                self.prevButtons["Z"] = zPressed
 
             self.axisLabel.configure(text = f"Left Stick: ({leftX: .2f}, {leftY: .2f})")
 
@@ -107,12 +139,25 @@ class InputDisplay(ctk.CTk):
 
                 self.axisLabel.configure(text = f"Left Stick: ({leftX: .2f}, {leftY: .2f})")
 
-            weirdo = self.genericController
-            if sdl2.SDL_JoystickNumAxes(weirdo) > 4:
-                zPressed = sdl2.SDL_JoystickGetAxis(weirdo, 4) > 0
+            joy = sdl2.SDL_GameControllerGetJoystick(self.standardController)
+            if sdl2.SDL_JoystickNumAxes(joy) > 4:
+                axisVal = sdl2.SDL_JoystickGetAxis(joy, 4)
+            
+                if axisVal > 16000:
+                    self.zLow = 0
+                    zPressed = True
+                elif axisVal < 8000:
+                    self.zLow = getattr(self, "zLow", 0) + 1
+                    zPressed = self.prevButtons.get("Z", False) if self.zLow < 2 else False
+                else:
+                    zPressed = self.prevButtons.get("Z", False)
+            
                 if zPressed and not self.prevButtons.get("Z", False):
-                    self.buttonLabel.configure(text = "Last Button: Z")
-                self.prevButtons["Z"] = isPressed
+                    buttonName = self.n64MapDefault.get("Z", "Z")
+                    print(f"{buttonName} pressed.")
+                    self.buttonLabel.configure(text = f"Last Button: {buttonName}")
+            
+                self.prevButtons["Z"] = zPressed
         
         # waits for 16 ms before calling the loop again. results in approx. 60 fps update time
         self.after(16, self.updateLoop)
