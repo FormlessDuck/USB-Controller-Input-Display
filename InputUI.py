@@ -1,6 +1,7 @@
 import ctypes
 import sdl2
 import customtkinter as ctk
+from PIL import Image, ImageTk
 
 class InputDisplay(ctk.CTk):
 
@@ -41,7 +42,8 @@ class InputDisplay(ctk.CTk):
         self.axisLabel = ctk.CTkLabel(self, text = "Left Stick: (0.00, 0.00)")
         self.axisLabel.pack(pady = 20)
 
-
+        self.canvas = ctk.CTkCanvas(height = 400, width = 400, bg = "Gray25", highlightthickness = 0)
+        self.canvas.pack(pady = 30)
 
         self.connectController()
         self.updateLoop()
