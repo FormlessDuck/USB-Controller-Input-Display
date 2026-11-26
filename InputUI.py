@@ -1,3 +1,4 @@
+import json
 import ctypes
 import sdl2
 import customtkinter as ctk
@@ -6,7 +7,7 @@ from PIL import Image, ImageTk
 class InputDisplay(ctk.CTk):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(fg_color = "Gray25")
 
         sdl2.SDL_Init(sdl2.SDL_INIT_JOYSTICK | sdl2.SDL_INIT_GAMECONTROLLER)
 
@@ -21,10 +22,28 @@ class InputDisplay(ctk.CTk):
             "RIGHTSHOULDER": "R", 
             "DPUP": "D-UP", 
             "DPDOWN": "D-DOWN", 
-            "DPLEFT": "D-LEFT:",
+            "DPLEFT": "D-LEFT",
             "DPRIGHT": "D-RIGHT",
             "GUIDE": "START",
             "Z": "Z"
+        }
+
+        self.n64Layout = {
+            "A": (280, 220),
+            "B": (245, 175),
+            "C-UP": (335, 125),
+            "C-DOWN": (335, 185),
+            "C-LEFT": (305, 155),
+            "C-RIGHT": (365, 155),
+            "START": (175, 175),
+            "Z": (173, 125),
+            "L": (100, 110),
+            "R": (245, 110),
+            "D-RIGHT": (80, 175),
+            "D-UP": (80, 175),
+            "D-LEFT": (80, 175),
+            "D-DOWN": (80, 175), 
+            "THUMB_BASE": (175, 265)
         }
 
         self.standardController = None # For use with standard controllers, i.e, XBox, Playstation, Switch
@@ -33,21 +52,118 @@ class InputDisplay(ctk.CTk):
 
         self.prevButtons = {} # dictionary of previous state of all controller inputs.
 
-        self.statusLabel = ctk.CTkLabel(self, text = "Waiting for input...")
-        self.statusLabel.pack(pady = 20)
+        self.statusLabel = ctk.CTkLabel(self, text = "Looking for Controller...")
+        self.statusLabel.pack(pady = 10)
 
-        self.buttonLabel = ctk.CTkLabel(self, text = "Press a button...")
-        self.buttonLabel.pack(pady = 20)
+        self.canvas = ctk.CTkCanvas(
+            self, 
+            width = 450,
+            height = 350,
+            bg = "Gray25",
+            highlightthickness = 0
+        )
+        self.canvas.pack()
 
-        self.axisLabel = ctk.CTkLabel(self, text = "Left Stick: (0.00, 0.00)")
-        self.axisLabel.pack(pady = 20)
+        self.UIElements = {
+            "A": (
+                ImageTk.PhotoImage(Image.open("UIElements/A_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/A_Button_Pressed.png").resize((48, 48))),
+            ),
+            "B": (
+                ImageTk.PhotoImage(Image.open("UIElements/B_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/B_Button_Pressed.png").resize((48, 48))),
+            ),
+            "C-UP": (
+                ImageTk.PhotoImage(Image.open("UIElements/C_UP_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/C_UP_Button_Pressed.png").resize((32, 32))),
+            ),
+            "C-DOWN": (
+                ImageTk.PhotoImage(Image.open("UIElements/C_DOWN_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/C_DOWN_Button_Pressed.png").resize((32, 32))),
+            ),
+            "C-LEFT": (
+                ImageTk.PhotoImage(Image.open("UIElements/C_LEFT_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/C_LEFT_Button_Pressed.png").resize((32, 32))),
+            ),
+            "C-RIGHT": (
+                ImageTk.PhotoImage(Image.open("UIElements/C_RIGHT_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/C_RIGHT_Button_Pressed.png").resize((32, 32))),
+            ),
+            "START": (
+                ImageTk.PhotoImage(Image.open("UIElements/START_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/START_Button_Pressed.png").resize((48, 48))),
+            ),
+            "Z": (
+                ImageTk.PhotoImage(Image.open("UIElements/Z_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/Z_Button_Pressed.png").resize((32, 32))),
+            ),
+            "L": (
+                ImageTk.PhotoImage(Image.open("UIElements/L_Button.png").resize((64, 64))),
+                ImageTk.PhotoImage(Image.open("UIElements/L_Button_Pressed.png").resize((64, 64))),
+            ),
+            "R": (
+                ImageTk.PhotoImage(Image.open("UIElements/R_Button.png").resize((64, 64))),
+                ImageTk.PhotoImage(Image.open("UIElements/R_Button_Pressed.png").resize((64, 64)))
+            ), 
+            "D-RIGHT": (
+                ImageTk.PhotoImage(Image.open("UIElements/D_RIGHT_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/D_RIGHT_Button_Pressed.png").resize((96, 96)))
+            ),
+            "D-UP": (
+                ImageTk.PhotoImage(Image.open("UIElements/D_UP_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/D_UP_Button_Pressed.png").resize((96, 96)))
+            ),
+            "D-LEFT": (
+                ImageTk.PhotoImage(Image.open("UIElements/D_LEFT_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/D_LEFT_Button_Pressed.png").resize((96, 96)))
+            ),
+            "D-DOWN": (
+                ImageTk.PhotoImage(Image.open("UIElements/D_DOWN_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/D_DOWN_Button_Pressed.png").resize((96, 96)))
+            ), 
+            "THUMB_BASE": (
+                ImageTk.PhotoImage(Image.open("UIElements/THUMB_BASE.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/THUMB_BASE.png").resize((96, 96)))
+            ), 
+        }
 
-        self.canvas = ctk.CTkCanvas(height = 400, width = 400, bg = "Gray25", highlightthickness = 0)
-        self.canvas.pack(pady = 30)
+        self.UIButtons = {}
+        for button, (xPosition, yPosition) in self.n64Layout.items():
+            unpressedImg = self.UIElements[button][0]
+            buttonId = self.canvas.create_image(xPosition, yPosition, image = unpressedImg, anchor = "center")
+            self.UIButtons[button] = buttonId
+
+        self.stickImage = ImageTk.PhotoImage(Image.open("UIElements/THUMB_STICK.png").resize((96, 96)))
+        self.stickX, self.stickY = self.n64Layout["THUMB_BASE"]
+        self.stickId = self.canvas.create_image(self.stickX, self.stickY, image = self.stickImage, anchor = "center")
+
+        self.stickCenter = self.canvas.coords(self.stickId)
+        self.MAX_OFFSET = 12
+        self.prevStick = (0.0, 0.0)
+
 
         self.connectController()
         self.updateLoop()
 
+    def updateButtonImage(self, button, isPressed):
+        wasPressed = self.prevButtons.get(button, False)
+
+        if isPressed != wasPressed and button in self.UIButtons:    
+            newImg = self.UIElements[button][1 if isPressed else 0]
+            self.canvas.itemconfig(self.UIButtons[button], image = newImg)
+
+        self.prevButtons[button] = isPressed
+
+    def updateStickImage(self, leftX, leftY):
+        if (leftX, leftY) != self.prevStick:
+            x, y = self.stickCenter
+            self.canvas.coords(
+                self.stickId, 
+                x + (leftX * self.MAX_OFFSET),
+                y + (leftY * self.MAX_OFFSET)
+            )
+            self.prevStick = (leftX, leftY)
+            
     def connectController(self): # Looks for detected controllers and connects first available. Accounts for whether the controller has standard mapping or is generic
         self.closeActive()
 
@@ -87,14 +203,6 @@ class InputDisplay(ctk.CTk):
                 self.connectController()
 
         if self.standardController:
-            for button in range(sdl2.SDL_CONTROLLER_BUTTON_MAX):
-                isPressed = bool(sdl2.SDL_GameControllerGetButton(self.standardController, button))
-                if isPressed and not self.prevButtons.get(button, False):
-                    # buttonName = sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper()
-                    buttonName = self.n64MapDefault[sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper()]
-                    print(f"{buttonName} pressed.")
-                    self.buttonLabel.configure(text = f"Last Button: {buttonName}")
-                self.prevButtons[button] = isPressed
 
             # grab normalized analog axis positions
             leftX = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_LEFTX) / 32767.0
@@ -102,6 +210,13 @@ class InputDisplay(ctk.CTk):
             leftTrigger = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_TRIGGERLEFT) / 32767.0
             rightTrigger = sdl2.SDL_GameControllerGetAxis(self.standardController, sdl2.SDL_CONTROLLER_AXIS_TRIGGERRIGHT) / 32767.0
 
+            self.updateStickImage(leftX, leftY)
+
+            for button in range(sdl2.SDL_CONTROLLER_BUTTON_MAX):
+                isPressed = bool(sdl2.SDL_GameControllerGetButton(self.standardController, button))
+                buttonName = self.n64MapDefault.get(sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper())
+                self.updateButtonImage(buttonName, isPressed)
+            
             # This block handles N64 controllers specifically, as the Z trigger reads as axis 4, rather than a button. This code reads the axis, and adds the button to the button dict.
             # some usb adapters poll at lower rates, so a held button, especially one that reads as an analog axis, will dip low for a frame when held. I updated this block to account for that so the button doesnt refire every frame unless i want it to. 
             joy = sdl2.SDL_GameControllerGetJoystick(self.standardController)
@@ -117,29 +232,20 @@ class InputDisplay(ctk.CTk):
                 else:
                     zPressed = self.prevButtons.get("Z", False)
 
-                if zPressed and not self.prevButtons.get("Z", False):
-                    buttonName = self.n64MapDefault.get("Z", "Z")
-                    print(f"{buttonName} pressed.")
-                    self.buttonLabel.configure(text = f"Last Button: {buttonName}")
-
-                self.prevButtons["Z"] = zPressed
-
-            self.axisLabel.configure(text = f"Left Stick: ({leftX: .2f}, {leftY: .2f})")
+                buttonName = self.n64MapDefault.get("Z", "Z")
+                self.updateButtonImage(buttonName, zPressed)
 
         elif self.genericController:
             numButtons = sdl2.SDL_JoystickNumButtons(self.genericController)
-            for button in range(numButtons):
-                isPressed = bool(sdl2.SDL_JoystickGetButton(self.genericController, button))
-                if isPressed and not self.prevButtons.get(button, False):
-                    print(f"{button} pressed.")
-                    self.buttonLabel.configure(text = f"Last Button: {button}")
-                self.prevButtons[button] = isPressed
 
             if sdl2.SDL_JoystickNumAxes(self.genericController) >= 2:
                 leftX = sdl2.SDL_JoystickGetAxis(self.genericController, 0) /32767.0
                 leftY = sdl2.SDL_JoystickGetAxis(self.genericController, 1) / 32767.0
 
-                self.axisLabel.configure(text = f"Left Stick: ({leftX: .2f}, {leftY: .2f})")
+            for button in range(numButtons):
+                isPressed = bool(sdl2.SDL_GameControllerGetButton(self.standardController, button))
+                buttonName = self.n64MapDefault.get(sdl2.SDL_GameControllerGetStringForButton(button).decode("utf-8").upper())
+                self.updateButtonImage(buttonName, isPressed)
 
             joy = sdl2.SDL_GameControllerGetJoystick(self.standardController)
             if sdl2.SDL_JoystickNumAxes(joy) > 4:
@@ -154,15 +260,12 @@ class InputDisplay(ctk.CTk):
                 else:
                     zPressed = self.prevButtons.get("Z", False)
             
-                if zPressed and not self.prevButtons.get("Z", False):
-                    buttonName = self.n64MapDefault.get("Z", "Z")
-                    print(f"{buttonName} pressed.")
-                    self.buttonLabel.configure(text = f"Last Button: {buttonName}")
-            
-                self.prevButtons["Z"] = zPressed
+                buttonName = self.n64MapDefault.get("Z", "Z")
+                self.updateButtonImage(buttonName, zPressed)
         
         # waits for 16 ms before calling the loop again. results in approx. 60 fps update time
         self.after(16, self.updateLoop)
+
 
 app = InputDisplay()
 app.mainloop()
