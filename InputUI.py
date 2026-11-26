@@ -1,4 +1,5 @@
 import json
+import os
 import ctypes
 import sdl2
 import customtkinter as ctk
@@ -10,6 +11,8 @@ class InputDisplay(ctk.CTk):
         super().__init__(fg_color = "Gray25")
 
         sdl2.SDL_Init(sdl2.SDL_INIT_JOYSTICK | sdl2.SDL_INIT_GAMECONTROLLER)
+
+        self.layoutFile = "layouts.json"
 
         self.n64MapDefault = {
             "A": "B",
@@ -29,21 +32,21 @@ class InputDisplay(ctk.CTk):
         }
 
         self.n64Layout = {
-            "A": (280, 220),
-            "B": (245, 175),
-            "C-UP": (335, 125),
-            "C-DOWN": (335, 185),
-            "C-LEFT": (305, 155),
-            "C-RIGHT": (365, 155),
-            "START": (175, 175),
-            "Z": (173, 125),
-            "L": (100, 110),
-            "R": (245, 110),
-            "D-RIGHT": (80, 175),
-            "D-UP": (80, 175),
-            "D-LEFT": (80, 175),
-            "D-DOWN": (80, 175), 
-            "THUMB_BASE": (175, 265)
+            "A": (280, 220 - 60),
+            "B": (245, 175 - 60),
+            "C-UP": (335, 125 - 60),
+            "C-DOWN": (335, 185 - 60),
+            "C-LEFT": (305, 155 - 60),
+            "C-RIGHT": (365, 155 - 60),
+            "START": (175, 175 - 60),
+            "Z": (173 + 2, 125 - 60),
+            "L": (100 + 2, 110 - 60),
+            "R": (245 + 2, 110 - 60),
+            "D-RIGHT": (80, 175 - 60),
+            "D-UP": (80, 175 - 60),
+            "D-LEFT": (80, 175 - 60),
+            "D-DOWN": (80, 175 - 60), 
+            "THUMB_BASE": (175, 265 - 60)
         }
 
         self.standardController = None # For use with standard controllers, i.e, XBox, Playstation, Switch
@@ -57,9 +60,9 @@ class InputDisplay(ctk.CTk):
 
         self.canvas = ctk.CTkCanvas(
             self, 
-            width = 450,
-            height = 350,
-            bg = "Gray25",
+            width = 400,
+            height = 280,
+            bg = "Gray35",
             highlightthickness = 0
         )
         self.canvas.pack()
@@ -94,8 +97,8 @@ class InputDisplay(ctk.CTk):
                 ImageTk.PhotoImage(Image.open("UIElements/N64/START_Button_Pressed.png").resize((48, 48))),
             ),
             "Z": (
-                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button_Pressed.png").resize((48, 48))),
             ),
             "L": (
                 ImageTk.PhotoImage(Image.open("UIElements/N64/L_Button.png").resize((64, 64))),

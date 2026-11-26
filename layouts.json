@@ -1,0 +1,121 @@
+{
+    "N64": {
+        "canvasSize": [400, 280],
+        "background": "",
+        "buttons": {
+            "A": {
+                "pos": [280, 160],
+                "size": [48, 48],
+                "unpressed": "UIElements/N64/A_Button.png", 
+                "pressed": "UIElements/N64/A_Button_Pressed.png"
+            },
+            "B": {
+                "pos": [245, 115],
+                "size": [48, 48],
+                "unpressed": "UIElements/N64/B_Button.png", 
+                "pressed": "UIElements/N64/B_Button_Pressed.png"
+            },
+            "START": {
+                "pos": [175, 115],
+                "size": [48, 48],
+                "unpressed": "UIElements/N64/START_Button.png", 
+                "pressed": "UIElements/N64/START_Button_Pressed.png"
+            },
+            "L": {
+                "pos": [102, 50],
+                "size": [64, 64],
+                "unpressed": "UIElements/N64/L_Button.png", 
+                "pressed": "UIElements/N64/L_Button_Pressed.png"
+            },
+            "R": {
+                "pos": [247, 50],
+                "size": [64, 64],
+                "unpressed": "UIElements/N64/R_Button.png", 
+                "pressed": "UIElements/N64/R_Button_Pressed.png"
+            },
+            "Z": {
+                "pos": [175, 75],
+                "size": [32, 32],
+                "unpressed": "UIElements/N64/Z_Button.png", 
+                "pressed": "UIElements/N64/Z_Button_Pressed.png"
+            },
+            "C-UP": {
+                "pos": [335, 65],
+                "size": [32, 32],
+                "unpressed": "UIElements/N64/C_UP_Button.png", 
+                "pressed": "UIElements/N64/C_UP_Button_Pressed.png"
+            },
+            "C-DOWN": {
+                "pos": [335, 125],
+                "size": [32, 32],
+                "unpressed": "UIElements/N64/C_DOWN_Button.png", 
+                "pressed": "UIElements/N64/C_DOWN_Button_Pressed.png"
+            },
+            "C-LEFT": {
+                "pos": [305, 95],
+                "size": [32, 32],
+                "unpressed": "UIElements/N64/C_LEFT_Button.png", 
+                "pressed": "UIElements/N64/C_LEFT_Button_Pressed.png"
+            },
+            "C-RIGHT": {
+                "pos": [365, 95],
+                "size": [32, 32],
+                "unpressed": "UIElements/N64/C_RIGHT_Button.png", 
+                "pressed": "UIElements/N64/C_RIGHT_Button_Pressed.png"
+            },
+            "D-UP": {
+                "pos": [80, 115],
+                "size": [96, 96],
+                "unpressed": "UIElements/N64/D_UP_Button.png", 
+                "pressed": "UIElements/N64/D_UP_Button_Pressed.png"
+            },
+            "D-DOWN": {
+                "pos": [80, 115],
+                "size": [96, 96],
+                "unpressed": "UIElements/N64/D_DOWN_Button.png", 
+                "pressed": "UIElements/N64/D_DOWN_Button_Pressed.png"
+            },
+            "D-LEFT": {
+                "pos": [80, 115],
+                "size": [96, 96],
+                "unpressed": "UIElements/N64/D_LEFT_Button.png", 
+                "pressed": "UIElements/N64/D_LEFT_Button_Pressed.png"
+            },
+            "D-RIGHT": {
+                "pos": [80, 115],
+                "size": [96, 96],
+                "unpressed": "UIElements/N64/D_RIGHT_Button.png", 
+                "pressed": "UIElements/N64/D_RIGHT_Button_Pressed.png"
+            },
+            "THUMB_BASE": {
+                "pos": [175, 205],
+                "size": [96, 96],
+                "unpressed": "UIElements/N64/THUMB_BASE.png",
+                "pressed": "UIElements/N64/THUMB_BASE.png"
+            }
+        },
+        "sticks": {
+            "left": {
+                "center": [175, 205],
+                "size": [96, 96],
+                "MAX_OFFSET": 12
+            }
+        },
+        "inputMap": {
+            "A": "B",
+            "B": "A", 
+            "X": "C-LEFT", 
+            "Y": "C-DOWN", 
+            "START": "C-UP",
+            "BACK": "C-RIGHT", 
+            "LEFTSHOULDER": "L", 
+            "RIGHTSHOULDER": "R", 
+            "DPUP": "D-UP", 
+            "DPDOWN": "D-DOWN", 
+            "DPLEFT": "D-LEFT",
+            "DPRIGHT": "D-RIGHT",
+            "GUIDE": "START",
+            "Z": "Z"
+        }
+    }
+}
