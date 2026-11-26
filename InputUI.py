@@ -66,65 +66,65 @@ class InputDisplay(ctk.CTk):
 
         self.UIElements = {
             "A": (
-                ImageTk.PhotoImage(Image.open("UIElements/A_Button.png").resize((48, 48))),
-                ImageTk.PhotoImage(Image.open("UIElements/A_Button_Pressed.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/A_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/A_Button_Pressed.png").resize((48, 48))),
             ),
             "B": (
-                ImageTk.PhotoImage(Image.open("UIElements/B_Button.png").resize((48, 48))),
-                ImageTk.PhotoImage(Image.open("UIElements/B_Button_Pressed.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/B_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/B_Button_Pressed.png").resize((48, 48))),
             ),
             "C-UP": (
-                ImageTk.PhotoImage(Image.open("UIElements/C_UP_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/C_UP_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_UP_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_UP_Button_Pressed.png").resize((32, 32))),
             ),
             "C-DOWN": (
-                ImageTk.PhotoImage(Image.open("UIElements/C_DOWN_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/C_DOWN_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_DOWN_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_DOWN_Button_Pressed.png").resize((32, 32))),
             ),
             "C-LEFT": (
-                ImageTk.PhotoImage(Image.open("UIElements/C_LEFT_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/C_LEFT_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_LEFT_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_LEFT_Button_Pressed.png").resize((32, 32))),
             ),
             "C-RIGHT": (
-                ImageTk.PhotoImage(Image.open("UIElements/C_RIGHT_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/C_RIGHT_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_RIGHT_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/C_RIGHT_Button_Pressed.png").resize((32, 32))),
             ),
             "START": (
-                ImageTk.PhotoImage(Image.open("UIElements/START_Button.png").resize((48, 48))),
-                ImageTk.PhotoImage(Image.open("UIElements/START_Button_Pressed.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/START_Button.png").resize((48, 48))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/START_Button_Pressed.png").resize((48, 48))),
             ),
             "Z": (
-                ImageTk.PhotoImage(Image.open("UIElements/Z_Button.png").resize((32, 32))),
-                ImageTk.PhotoImage(Image.open("UIElements/Z_Button_Pressed.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button.png").resize((32, 32))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/Z_Button_Pressed.png").resize((32, 32))),
             ),
             "L": (
-                ImageTk.PhotoImage(Image.open("UIElements/L_Button.png").resize((64, 64))),
-                ImageTk.PhotoImage(Image.open("UIElements/L_Button_Pressed.png").resize((64, 64))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/L_Button.png").resize((64, 64))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/L_Button_Pressed.png").resize((64, 64))),
             ),
             "R": (
-                ImageTk.PhotoImage(Image.open("UIElements/R_Button.png").resize((64, 64))),
-                ImageTk.PhotoImage(Image.open("UIElements/R_Button_Pressed.png").resize((64, 64)))
+                ImageTk.PhotoImage(Image.open("UIElements/N64/R_Button.png").resize((64, 64))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/R_Button_Pressed.png").resize((64, 64)))
             ), 
             "D-RIGHT": (
-                ImageTk.PhotoImage(Image.open("UIElements/D_RIGHT_Button.png").resize((96, 96))),
-                ImageTk.PhotoImage(Image.open("UIElements/D_RIGHT_Button_Pressed.png").resize((96, 96)))
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_RIGHT_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_RIGHT_Button_Pressed.png").resize((96, 96)))
             ),
             "D-UP": (
-                ImageTk.PhotoImage(Image.open("UIElements/D_UP_Button.png").resize((96, 96))),
-                ImageTk.PhotoImage(Image.open("UIElements/D_UP_Button_Pressed.png").resize((96, 96)))
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_UP_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_UP_Button_Pressed.png").resize((96, 96)))
             ),
             "D-LEFT": (
-                ImageTk.PhotoImage(Image.open("UIElements/D_LEFT_Button.png").resize((96, 96))),
-                ImageTk.PhotoImage(Image.open("UIElements/D_LEFT_Button_Pressed.png").resize((96, 96)))
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_LEFT_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_LEFT_Button_Pressed.png").resize((96, 96)))
             ),
             "D-DOWN": (
-                ImageTk.PhotoImage(Image.open("UIElements/D_DOWN_Button.png").resize((96, 96))),
-                ImageTk.PhotoImage(Image.open("UIElements/D_DOWN_Button_Pressed.png").resize((96, 96)))
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_DOWN_Button.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/D_DOWN_Button_Pressed.png").resize((96, 96)))
             ), 
             "THUMB_BASE": (
-                ImageTk.PhotoImage(Image.open("UIElements/THUMB_BASE.png").resize((96, 96))),
-                ImageTk.PhotoImage(Image.open("UIElements/THUMB_BASE.png").resize((96, 96)))
-            ), 
+                ImageTk.PhotoImage(Image.open("UIElements/N64/THUMB_BASE.png").resize((96, 96))),
+                ImageTk.PhotoImage(Image.open("UIElements/N64/THUMB_BASE.png").resize((96, 96)))
+            )
         }
 
         self.UIButtons = {}
@@ -133,7 +133,7 @@ class InputDisplay(ctk.CTk):
             buttonId = self.canvas.create_image(xPosition, yPosition, image = unpressedImg, anchor = "center")
             self.UIButtons[button] = buttonId
 
-        self.stickImage = ImageTk.PhotoImage(Image.open("UIElements/THUMB_STICK.png").resize((96, 96)))
+        self.stickImage = ImageTk.PhotoImage(Image.open("UIElements/N64/THUMB_STICK.png").resize((96, 96)))
         self.stickX, self.stickY = self.n64Layout["THUMB_BASE"]
         self.stickId = self.canvas.create_image(self.stickX, self.stickY, image = self.stickImage, anchor = "center")
 
